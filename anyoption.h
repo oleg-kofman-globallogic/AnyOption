@@ -159,7 +159,7 @@ public: /* the public interface */
    * get the argument count and arguments sans the options
    */
   int getArgc() const;
-  char *getArgv(int index) const;
+  char *getArgv(unsigned int index) const;
   bool hasOptions() const;
 
 private:                /* the hidden data structure */
@@ -169,7 +169,7 @@ private:                /* the hidden data structure */
   char *appname;        /* the application name from argv[0] */
 
   int *new_argv;      /* arguments sans options (index to argv) */
-  int new_argc;       /* argument count sans the options */
+  unsigned int new_argc;       /* argument count sans the options */
   unsigned int max_legal_args; /* ignore extra arguments */
 
   /* option strings storage + indexing */
@@ -184,11 +184,11 @@ private:                /* the hidden data structure */
   char *optionchars;    /*  storage */
   OptionType *optchartype;     /* type - common, command, file */
   int *optcharindex;    /* index into value storage */
-  int optchar_counter;  /* counter for added options  */
+  unsigned int optchar_counter;  /* counter for added options  */
 
   /* values */
   char **values;       /* common value storage */
-  int g_value_counter; /* globally updated value index LAME! */
+  unsigned int g_value_counter; /* globally updated value index LAME! */
 
   /* help and usage */
   const char **usage;  /* usage */

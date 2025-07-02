@@ -109,8 +109,8 @@ void AnyOption::init(unsigned int maxopt, unsigned int maxcharopt) {
   once = true;
   hasoptions = false;
   autousage = false;
-  print_usage = false; 
-  print_help = false; 
+  print_usage = false;
+  print_help = false;
 
   strcpy(long_opt_prefix, "--");
 
@@ -264,7 +264,7 @@ void AnyOption::cleanup() {
   free(optcharindex);
   free(usage);
   if (values != nullptr) {
-    for (int i = 0; i < g_value_counter; i++) {
+    for (unsigned int i = 0; i < g_value_counter; i++) {
       delete[] values[i];
       values[i] = nullptr;
     }
@@ -637,7 +637,7 @@ int AnyOption::matchOpt(char *opt) {
   return -1;
 }
 bool AnyOption::matchChar(char c) {
-  for (int i = 0; i < optchar_counter; i++) {
+  for (unsigned int i = 0; i < optchar_counter; i++) {
     if (optionchars[i] == c) { /* found match */
       if (optchartype[i] == COMMON_OPT ||
           optchartype[i] ==
@@ -698,7 +698,7 @@ bool AnyOption::getFlag(const char *option) {
 char *AnyOption::getValue(char option) {
   if (!valueStoreOK())
     return nullptr;
-  for (int i = 0; i < optchar_counter; i++) {
+  for (unsigned int i = 0; i < optchar_counter; i++) {
     if (optionchars[i] == option)
       return values[optcharindex[i]];
   }
@@ -708,7 +708,7 @@ char *AnyOption::getValue(char option) {
 bool AnyOption::getFlag(char option) {
   if (!valueStoreOK())
     return false;
-  for (int i = 0; i < optchar_counter; i++) {
+  for (unsigned int i = 0; i < optchar_counter; i++) {
     if (optionchars[i] == option)
       return findFlag(values[optcharindex[i]]);
   }
@@ -759,7 +759,7 @@ bool AnyOption::setFlagOn(const char *option) {
 bool AnyOption::setValue(char option, char *value) {
   if (!valueStoreOK())
     return false;
-  for (int i = 0; i < optchar_counter; i++) {
+  for (unsigned int i = 0; i < optchar_counter; i++) {
     if (optionchars[i] == option) {
       size_t length = (strlen(value) + 1) * sizeof(char);
       allocValues(optcharindex[i], length);
@@ -773,7 +773,7 @@ bool AnyOption::setValue(char option, char *value) {
 bool AnyOption::setFlagOn(char option) {
   if (!valueStoreOK())
     return false;
-  for (int i = 0; i < optchar_counter; i++) {
+  for (unsigned int i = 0; i < optchar_counter; i++) {
     if (optionchars[i] == option) {
       size_t length = (strlen(TRUE_FLAG) + 1) * sizeof(char);
       allocValues(optcharindex[i], length);
@@ -786,7 +786,7 @@ bool AnyOption::setFlagOn(char option) {
 
 int AnyOption::getArgc() const { return new_argc; }
 
-char *AnyOption::getArgv(int index) const {
+char *AnyOption::getArgv(unsigned int index) const {
   if (index < new_argc) {
     return (argv[new_argv[index]]);
   }
@@ -925,7 +925,7 @@ char *AnyOption::chomp(char *str) {
 
 void AnyOption::valuePairs(char *type, char *value) {
   if (strlen(chomp(type)) == 1) { /* this is a char option */
-    for (int i = 0; i < optchar_counter; i++) {
+    for (unsigned int i = 0; i < optchar_counter; i++) {
       if (optionchars[i] == type[0]) { /* match */
         if (optchartype[i] == COMMON_OPT || optchartype[i] == FILE_OPT) {
           setValue(type[0], chomp(value));
@@ -951,7 +951,7 @@ void AnyOption::valuePairs(char *type, char *value) {
 void AnyOption::justValue(char *type) {
 
   if (strlen(chomp(type)) == 1) { /* this is a char option */
-    for (int i = 0; i < optchar_counter; i++) {
+    for (unsigned int i = 0; i < optchar_counter; i++) {
       if (optionchars[i] == type[0]) { /* match */
         if (optchartype[i] == COMMON_FLAG || optchartype[i] == FILE_FLAG) {
           setFlagOn(type[0]);
